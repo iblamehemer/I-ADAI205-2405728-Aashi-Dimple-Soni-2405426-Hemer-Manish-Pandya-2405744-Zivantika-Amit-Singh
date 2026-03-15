@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NOVA TECH — AI-Powered Automated Branding Assistant. Generate brand identities, slogans, and marketing strategies powered by Claude AI.">
+  <title>NOVA TECH · AI Branding Assistant</title>
+
+  <!-- Preconnect for fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Favicon (inline SVG as data URI) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2300D4FF'/%3E%3Cstop offset='1' stop-color='%237B2FFF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='8' y='22' font-size='16' fill='white'%3E✦%3C/text%3E%3C/svg%3E">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/nova-tech.css">
+
+  <!-- Print styles -->
+  <style>
+    @media print {
+      .sidebar, .topbar, .topbar-actions, #toast-container, canvas { display: none !important; }
+      .main-content { margin-left: 0 !important; }
+      .hero-banner { background: #f5f5f5 !important; color: #000 !important; }
+      .card { break-inside: avoid; border: 1px solid #ddd !important; background: white !important; color: #000 !important; }
+      .section-title, .card-title, .ai-slogan-text { color: #000 !important; }
+      .text-muted, .metric-label { color: #555 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Starfield Background -->
+  <canvas id="stars-canvas" aria-hidden="true"></canvas>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- App Shell -->
+  <div class="app-shell">
+
+    <!-- ────────────── SIDEBAR ────────────── -->
+    <nav class="sidebar" role="navigation" aria-label="Main navigation">
+
+      <!-- Logo -->
+      <div class="sidebar-logo">
+        <div class="logo-icon" aria-hidden="true">✦</div>
+        <div class="logo-text">
+          <span class="brand-name">NOVA TECH</span>
+          <span class="brand-tagline">AI Branding Suite</span>
+        </div>
+      </div>
+
+      <!-- Nav Items -->
+      <div class="sidebar-nav">
+        <div class="nav-section-label">Main</div>
+
+        <div class="nav-item" data-page="dashboard" role="button" tabindex="0" aria-label="Dashboard">
+          <span class="nav-icon" aria-hidden="true">🏠</span>
+          <span class="label">Dashboard</span>
+        </div>
+
+        <div class="nav-section-label">AI Tools</div>
+
+        <div class="nav-item" data-page="brandforge" role="button" tabindex="0" aria-label="Brand Forge">
+          <span class="nav-icon" aria-hidden="true">✨</span>
+          <span class="label">Brand Forge</span>
+        </div>
+
+        <div class="nav-item" data-page="sloganlab" role="button" tabindex="0" aria-label="Slogan Lab">
+          <span class="nav-icon" aria-hidden="true">🔍</span>
+          <span class="label">Slogan Lab</span>
+        </div>
+
+        <div class="nav-section-label">Analytics</div>
+
+        <div class="nav-item" data-page="campaigns" role="button" tabindex="0" aria-label="Campaign Intelligence">
+          <span class="nav-icon" aria-hidden="true">📊</span>
+          <span class="label">Campaign Intel</span>
+        </div>
+
+        <div class="nav-section-label">Output</div>
+
+        <div class="nav-item" data-page="report" role="button" tabindex="0" aria-label="Brand Report">
+          <span class="nav-icon" aria-hidden="true">📄</span>
+          <span class="label">Brand Report</span>
+        </div>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="api-status" id="api-settings-link" role="button" tabindex="0" aria-label="API Settings">
+          <div class="status-dot" aria-hidden="true"></div>
+          <span id="api-status-label">Demo Mode Active</span>
+        </div>
+        <div style="padding: 12px 0 4px; text-align: center; font-size: 10px; color: var(--muted); letter-spacing: 0.5px;">
+          NOVA TECH · AI Branding Suite<br>
+          <span style="opacity:0.5">Powered by Claude AI</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ────────────── MAIN ────────────── -->
+    <div class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 id="topbar-title">Dashboard</h1>
+          <div class="page-subtitle" id="topbar-sub">Your AI branding command centre</div>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openApiModal()">⚙ API Settings</button>
+          <button class="btn btn-primary btn-sm" onclick="navigateTo('brandforge')">✨ New Brand</button>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main id="page-content" class="page-content" role="main" aria-live="polite">
+        <!-- Rendered by JavaScript -->
+      </main>
+    </div>
+
+  </div><!-- /.app-shell -->
+
+  <!-- ────────────── SCRIPTS ────────────── -->
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- Data Module -->
+  <script src="js/data.js"></script>
+
+  <!-- App Controller -->
+  <script src="js/app.js"></script>
+
+  <!-- Keyboard Navigation -->
+  <script>
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const el = document.activeElement;
+        if (el && el.dataset.page) {
+          e.preventDefault();
+          navigateTo(el.dataset.page);
+        }
+      }
+    });
+
+    // Global chart defaults for dark theme
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.Chart) {
+        Chart.defaults.color = '#8892B0';
+        Chart.defaults.borderColor = 'rgba(255,255,255,0.04)';
+        Chart.defaults.font.family = 'Inter, -apple-system, sans-serif';
+      }
+    });
+  </script>
+
+</body>
+</html>
